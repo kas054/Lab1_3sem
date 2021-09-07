@@ -14,7 +14,7 @@ int main()
     }
 
     coordinates(arr, &string, column, value, m, &size);
-    print_coordinates(string, column, value, size);
+//    print_coordinates(string, column, value, size);
 
     if (get_vector(arr, &answer, string, value, size, m)){
         std::cout << "Error in allocate memory" << std::endl;
