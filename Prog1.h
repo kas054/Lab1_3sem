@@ -29,5 +29,6 @@ namespace Prog1{
     void print_coordinates(int *string, int *column, int *value, int size); // вывод полученных векторов
     int get_vector(int **answer, int *string, int *column, int *value, int size, int m, int n); // формирование результата
     void print_result(int *answer, int size);
+    void print_matrix(int *string, int *column, int *value, int size, int m, int n);
 }
 #endif //LAB1_3SEM_PROG1_H

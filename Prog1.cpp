@@ -62,6 +62,7 @@ namespace Prog1{
         }
 
         rm = m;
+        rn = n;
         return lines;
     }
 // функция вывода
@@ -138,7 +139,7 @@ namespace Prog1{
             {
                 if (negative_number) // в предыдущей строке было отрицательное число
                 {
-                    if (column[prev_string] == n) (*answer)[prev_string] = value[prev_string]; // последнее число в строке не 0
+                    if (column[i - 1] == n - 1) (*answer)[prev_string] = value[i - 1]; // последнее число в строке не 0
                     else (*answer)[prev_string] = 0;
                 }
                 negative_number = 0;
@@ -146,12 +147,11 @@ namespace Prog1{
                 if (column[i] == 0) (*answer)[string[i]] = value[i]; // записываем значение первого ненулевого элемента
                 else (*answer)[string[i]] = 0;
             }
-            if (value[i] < 0) // если значение отрицательное, то записываем последний элемент
-                {
-                negative_number = 1;
-                    //int n = (matrix[string[i]]).n - 1;
-                    //(*answer)[string[i]] = (matrix[string[i]]).a[n];
-                }
+            if (value[i] < 0)
+            {
+                negative_number = 1;// если значение отрицательное, то записываем последний элемент
+                (*answer)[string[i]] = value[i];
+            }
         }
         return 0;
     }
@@ -165,4 +165,9 @@ namespace Prog1{
         }
         std::cout << "" << std::endl;
     }
+   /* void print_matrix(int *string, int *column, int *value, int size, int m, int n)
+    {
+
+
+    } */
 }

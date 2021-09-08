@@ -22,6 +22,7 @@ int main()
         return 1;
     }
     output("Input matrix", arr, m);
+    //print_matrix(string, column, value, size, m, n);
     print_result(answer, m);
     erase(arr, m);
     delete [] answer;
