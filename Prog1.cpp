@@ -6,11 +6,11 @@
 #include <iostream>
 namespace Prog1{
 // Функция ввода
-    Line* input(int &rm)
+    Line* input(int &rm, int &rn)
     {
         const char *pr = ""; // сообщение об ошибке
         Line *lines = nullptr; // динамический массив строк матрицы
-        int m; //количество строк матрицы
+        int m, n; //количество строк матрицы
 // ввод количества строк
         do{
             std::cout << pr << std::endl;
@@ -19,6 +19,16 @@ namespace Prog1{
             if (getNum(m) < 0) // ошибка ввода или конец файла
                 return nullptr;
         } while (m < 1);
+
+        pr = "";
+// ввод количества столбцов
+        do{
+            std::cout << pr << std::endl;
+            std::cout << "Enter number of items in line: --> ";
+            pr = "You are wrong; repeat please!";
+            if (getNum(n) < 0) // ошибка ввода или конец файла
+                return nullptr;
+        } while (n < 1);
 // выделяем память под массив структур
         try{
             lines = new Line[m];
@@ -29,18 +39,8 @@ namespace Prog1{
             return nullptr;
         }
         for (int i = 0; i < m; i++){
-// для каждой строки матрицы вводим количество столбцов
             pr = "";
-            do{
-                std::cout << pr << std::endl;
-                std::cout << "Enter number of items in line #" << (i + 1) << " --> ";
-                pr = "You are wrong; repeat please!";
-                if (getNum(lines[i].n) < 0){
-                    erase(lines, i); // освобождение памяти, занятой ранее введёными строками
-                    return nullptr;
-                }
-            } while (lines[i].n < 1);
-
+            lines[i].n = n;
 // выделяем память под элементы строки
             try{
                 lines[i].a = new int[lines[i].n];
@@ -53,7 +53,7 @@ namespace Prog1{
             }
 // введение элементов строки матрицы
             std::cout << "Enter items for matrix line #" << (i + 1) << ":" << std::endl;
-            for (int j = 0; j < lines[i].n; j++){
+            for (int j = 0; j < n; j++){
                 if (getNum(lines[i].a[j]) < 0){
                     erase(lines, i + 1);
                     return nullptr;
@@ -122,7 +122,7 @@ namespace Prog1{
         }
         std::cout << "" << std::endl;
     }
-    int get_vector(Line *matrix, int **answer, int *string, int *value, int size, int m)
+    int get_vector(int **answer, int *string, int *column, int *value, int size, int m, int n)
     {
         try{
             *answer = new int[m]();
@@ -132,17 +132,25 @@ namespace Prog1{
             std::cout << ba.what() << std::endl;
             return 1;
         }
-        int prev_string = -1;
+        int prev_string = -1, negative_number = 0;
         for (int i = 0; i < size; i ++){
             if (string[i] != prev_string) // перешли к элементам новой строки
             {
+                if (negative_number) // в предыдущей строке было отрицательное число
+                {
+                    if (column[prev_string] == n) (*answer)[prev_string] = value[prev_string]; // последнее число в строке не 0
+                    else (*answer)[prev_string] = 0;
+                }
+                negative_number = 0;
                 prev_string = string[i];
-                (*answer)[string[i]] = (matrix[string[i]]).a[0]; // записываем значение первого ненулевого элемента
+                if (column[i] == 0) (*answer)[string[i]] = value[i]; // записываем значение первого ненулевого элемента
+                else (*answer)[string[i]] = 0;
             }
             if (value[i] < 0) // если значение отрицательное, то записываем последний элемент
                 {
-                    int n = (matrix[string[i]]).n - 1;
-                    (*answer)[string[i]] = (matrix[string[i]]).a[n];
+                negative_number = 1;
+                    //int n = (matrix[string[i]]).n - 1;
+                    //(*answer)[string[i]] = (matrix[string[i]]).a[n];
                 }
         }
         return 0;
