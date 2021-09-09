@@ -87,11 +87,11 @@ namespace Prog1{
     }
     int *new_list(int *list, int new_size, int x)
     {
-       int *new_list = new int[new_size];
-       for (int i = 0; i < new_size - 1; i++) new_list[i] = list[i];
-       new_list[new_size - 1] = x;
-       if (new_size != 1) delete[] list;
-       return new_list;
+        int *new_list = new int[new_size];
+        for (int i = 0; i < new_size - 1; i++) new_list[i] = list[i];
+        new_list[new_size - 1] = x;
+        if (new_size != 1) delete[] list;
+        return new_list;
     }
     void coordinates(Line *lines, int **string, int *&column, int *&value, int m, int *size)
     {
@@ -147,11 +147,16 @@ namespace Prog1{
                 if (column[i] == 0) (*answer)[string[i]] = value[i]; // записываем значение первого ненулевого элемента
                 else (*answer)[string[i]] = 0;
             }
-            if (value[i] < 0)
+            if (value[i] < 0 || negative_number)
             {
                 negative_number = 1;// если значение отрицательное, то записываем последний элемент
                 (*answer)[string[i]] = value[i];
             }
+        }
+        if (negative_number) // в последней строке было отрицательное число
+        {
+            if (column[size - 1] == n - 1) (*answer)[prev_string] = value[size - 1]; // последнее число в строке не 0
+            else (*answer)[prev_string] = 0;
         }
         return 0;
     }
@@ -165,9 +170,26 @@ namespace Prog1{
         }
         std::cout << "" << std::endl;
     }
-   /* void print_matrix(int *string, int *column, int *value, int size, int m, int n)
+    void print_matrix(int *string, int *column, int *value, int size, int m, int n)
     {
-
-
-    } */
+        std::cout << "Input matrix: " << std::endl;
+        int k = 0, flag = size;
+        for (int i = 0; i < m; i ++ )
+        {
+            for (int j = 0; j < n; j ++)
+            {
+                if (flag) { // пока есть ненулевые значения
+                    if (string[k] == i && column[k] == j) // если индексы совпали, то печатаем значение
+                    {
+                        std::cout << value[k] << " ";
+                        k++;
+                        if (k == size) flag = 0; // перебрали все ненулевые значение
+                    }
+                    else std::cout << "0 ";
+                }
+                else std::cout << "0 ";
+            }
+            std::cout << "" << std::endl;
+        }
+    }
 }
