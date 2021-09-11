@@ -19,18 +19,26 @@ int main()
 
     if (get_vector(&answer, string, column, value, size, m, n)){
         std::cout << "Error in allocate memory" << std::endl;
-        delete [] string;
-        delete [] column;
-        delete [] value;
-        return 1;
+        delete[] answer;
+        if (size != 0)
+        {
+            //delete[] answer;
+            delete[] string;
+            delete[] column;
+            delete[] value;
+        }
     }
     //output("Input matrix", arr, m);
     print_matrix(string, column, value, size, m, n);
     print_result(answer, m);
     //erase(arr, m);
-    delete [] answer;
-    delete [] string;
-    delete [] column;
-    delete [] value;
+    delete[] answer;
+    if (size != 0)
+    {
+        //delete[] answer;
+        delete[] string;
+        delete[] column;
+        delete[] value;
+    }
     return 0;
 }
